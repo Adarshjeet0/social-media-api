@@ -1,0 +1,485 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "description": "API for Social Media application",
+        "title": "Social Media API"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "JWT": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization"
+            }
+        }
+    },
+    "paths": {
+        "/api/users/signin": {
+            "post": {
+                "tags":["User"],
+                "summary": "Login",
+                "description": "User Login to get Token",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["email", "password"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Incorrect Credentials"
+                    }
+                }
+            }
+        },
+        "/api/users/signup": {
+            "post": {
+                "tags":["User"],
+                "summary": "Create new account",
+                "description": "User can create new account",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name":{
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["name","email", "password"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized Access"
+                    }
+                }
+            }
+        },
+        "/api/posts/all": {
+            "get": {
+                "tags":["Post"],
+                "summary": "Get All Posts",
+                "description": "User can get all posts",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized Access"
+                    }
+                }
+            }
+        },
+        "/api/posts": {
+            "post": {
+                "tags":["Post"],
+                "summary": "Add new post",
+                "description": "User can Add new post",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "caption": {
+                                        "type": "string"
+                                    },
+                                    "imageUrl":{
+                                        "type":"string",
+                                        "format":"binary"
+                                    }
+                                },
+                                "required": ["caption","imageUrl"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized Access"
+                    }
+                }
+            }
+        },
+        
+        "/api/posts/{postId}": {
+            "put": {
+                "tags":["Post"],
+                "summary": "Update post",
+                "description": "User can update posts caption and image",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the post to fetch",
+                        "schema": {
+                            "type": "string"
+                        }
+                    } 
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "caption": {
+                                        "type": "string"
+                                    },
+                                    "imageUrl":{
+                                        "type":"string",
+                                        "format":"binary"
+                                    }
+                                },
+                                "required": []
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized Access"
+                    }
+                }
+            },
+            "get": {
+                "tags":["Post"],
+                "summary": "Get Post by ID",
+                "description": "User can get post by id",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the post to fetch",
+                        "schema": {
+                            "type": "string"
+                        }
+                    } 
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized Access"
+                    }
+                }
+
+            },
+            "delete": {
+                "tags":["Post"],
+                "summary": "Delete Post by ID",
+                "description": "User can delete post by id",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the post to fetch",
+                        "schema": {
+                            "type": "string"
+                        }
+                    } 
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized Access"
+                    }
+                }
+
+            }
+        },
+        "/api/likes/{postId}":{
+            "get": {
+                "tags":["Like"],
+                "summary": "Like the post",
+                "description": "User can like as well as remove the like",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the post to fetch",
+                        "schema": {
+                            "type": "string"
+                        }
+                    } 
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized Access"
+                    }
+                }
+
+            }
+        },
+        "/api/likes/toggle/{postId}":{
+            "post": {
+                "tags":["Like"],
+                "summary": "Toggle like to the post",
+                "description": "User can like as well as remove the like",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the post to fetch",
+                        "schema": {
+                            "type": "string"
+                        }
+                    } 
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized Access"
+                    }
+                }
+
+            }
+        },
+        "/api/comments/{postId}":{
+            "get": {
+                "tags":["Comment"],
+                "summary": "Get All comments to a specific post",
+                "description": "User can see all the comments to a specific post",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the post to fetch",
+                        "schema": {
+                            "type": "string"
+                        }
+                    } 
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized Access"
+                    }
+                }
+
+            },
+
+            "post": {
+                "tags":["Comment"],
+                "summary": "Add new comment to a specific post",
+                "description": "User can add new comment to a specific post",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the post to fetch",
+                        "schema": {
+                            "type": "string"
+                        }
+                    } 
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "comment": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["comment"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized Access"
+                    }
+                }
+
+            }
+        },
+        "/api/comments/{commentId}":{
+            "delete":{
+                "tags":["Comment"],
+                "summary": "Delete a comment ",
+                "description": "User can delete a comment to a specific post",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name": "commentId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the post to fetch",
+                        "schema": {
+                            "type": "string"
+                        }
+                    } 
+                ],
+                "responses":{
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized Access"
+                    }
+                }
+            },
+            "put":{
+                "tags":["Comment"],
+                "summary": "Add new comment to a specific post",
+                "description": "User can add new comment to a specific post",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name": "commentId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the post to fetch",
+                        "schema": {
+                            "type": "string"
+                        }
+                    } 
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "newComment": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized Access"
+                    }
+                }
+            }
+        }
+        
+    }
+}

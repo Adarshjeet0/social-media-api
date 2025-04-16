@@ -1,0 +1,20 @@
+{
+  "name": "mini-project-postaway1",
+  "version": "1.0.0",
+  "description": "A user friendly application for social media posts",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "Adarshjeet Chauhan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "swagger": "^0.7.5",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
